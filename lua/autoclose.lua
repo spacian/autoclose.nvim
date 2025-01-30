@@ -115,7 +115,8 @@ local function handler(key, info, mode)
       -- disable if the cursor touches alphanumeric character
       if
          config.options.disable_when_touch
-         and (pair .. "_"):sub(2, 2):match(config.options.touch_regex)
+         and vim.fn.col(".") - 1 ~= #vim.fn.getline(vim.fn.line("."))
+         and pair:sub(2, 2):match(config.options.touch_regex)
       then
          return key
       end
