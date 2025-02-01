@@ -27,6 +27,7 @@ local config = {
       disabled_filetypes = { "text" },
       disable_when_touch = false,
       touch_regex = "[%w(%[{]",
+      touch_regex_exceptions = "",
       pair_spaces = false,
       auto_indent = true,
       disable_command_mode = false,
@@ -117,6 +118,10 @@ local function handler(key, info, mode)
          config.options.disable_when_touch
          and vim.fn.col(".") - 1 ~= #vim.fn.getline(vim.fn.line("."))
          and pair:sub(2, 2):match(config.options.touch_regex)
+         and (
+            config.options.touch_regex_exceptions == ""
+            or not pair:sub(2, 2):match(config.options.touch_regex_exceptions)
+         )
       then
          return key
       end
